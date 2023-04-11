@@ -54,7 +54,7 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
                   selectionOverlay: Container(),
                   onSelectedItemChanged: (selectedDate) {
                     setState(() {
-                      _selectedDate = selectedDate;
+                      _selectedDate = _initialDate + selectedDate;
                     });
                   },
                   scrollController: FixedExtentScrollController(
