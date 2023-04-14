@@ -11,19 +11,10 @@ class MainInitial extends MainState {
   List<Object> get props => [];
 }
 
-class MainOpenSecondPage extends MainState {
+class MainOpenScreen extends MainState {
   final Map<String, dynamic> data;
 
-  const MainOpenSecondPage({required this.data});
-
-  @override
-  List<Object> get props => [Map<String, dynamic>];
-}
-
-class MainOpenThirdPage extends MainState {
-  final Map<String, dynamic> data;
-
-  const MainOpenThirdPage({required this.data});
+  const MainOpenScreen({required this.data});
 
   @override
   List<Object> get props => [Map<String, dynamic>];

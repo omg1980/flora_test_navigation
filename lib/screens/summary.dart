@@ -3,14 +3,9 @@ import 'package:flora_test/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SummaryScreen extends StatefulWidget {
+class SummaryScreen extends StatelessWidget {
   const SummaryScreen({super.key});
 
-  @override
-  State<SummaryScreen> createState() => _SummaryScreenState();
-}
-
-class _SummaryScreenState extends State<SummaryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +22,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
       ),
       body: BlocBuilder<MainBloc, MainState>(
         builder: (context, state) {
-          if (state is MainOpenThirdPage) {
+          if (state is MainOpenScreen) {
             final data = state.data;
             return ListView.builder(
               itemCount: data.keys.length,

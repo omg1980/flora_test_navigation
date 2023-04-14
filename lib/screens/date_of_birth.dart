@@ -95,24 +95,17 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
               child: BlocBuilder<MainBloc, MainState>(
                 builder: (context, state) {
                   final Map<String, dynamic> additionalData = {};
-                  if (state is MainOpenSecondPage) {
+
+                  if (state is MainOpenScreen) {
                     additionalData.addAll(state.data);
-                  }
-                  if (state is MainOpenThirdPage) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        AppRoutes.summaryScreen,
-                        (route) => false,
-                      );
-                    });
                   }
 
                   return InkWell(
                     borderRadius: BorderRadius.circular(20),
                     onTap: () {
                       context.read<MainBloc>().add(
-                            OpenThirdPage(
+                            NavigateToScreen(
+                              namedRoute: AppRoutes.summaryScreen,
                               data: {
                                 ...additionalData,
                                 'selectedDate': _selectedDate,

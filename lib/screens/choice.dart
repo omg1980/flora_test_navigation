@@ -24,11 +24,6 @@ class _ChoiceScreenState extends State<ChoiceScreen> {
         ),
         child: BlocBuilder<MainBloc, MainState>(
           builder: (context, state) {
-            if (state is MainOpenSecondPage) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.pushNamed(context, AppRoutes.dateOfBirthScreen);
-              });
-            }
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -36,7 +31,8 @@ class _ChoiceScreenState extends State<ChoiceScreen> {
                   title: 'Track my period',
                   description: 'contraception and wellbeing',
                   onTap: () => context.read<MainBloc>().add(
-                        const OpenSecondPage(
+                        const NavigateToScreen(
+                          namedRoute: AppRoutes.dateOfBirthScreen,
                           data: {
                             'title': 'Track my period',
                           },
@@ -47,7 +43,8 @@ class _ChoiceScreenState extends State<ChoiceScreen> {
                   title: 'Get pregnant',
                   description: 'learn about reproductive health',
                   onTap: () => context.read<MainBloc>().add(
-                        const OpenSecondPage(
+                        const NavigateToScreen(
+                          namedRoute: AppRoutes.dateOfBirthScreen,
                           data: {
                             'title': 'Get pregnant',
                           },

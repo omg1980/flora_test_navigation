@@ -4,19 +4,11 @@ abstract class MainEvent extends Equatable {
   const MainEvent();
 }
 
-class OpenSecondPage extends MainEvent {
+class NavigateToScreen extends MainEvent {
   final Map<String, dynamic> data;
+  final String namedRoute;
 
-  const OpenSecondPage({required this.data});
-
-  @override
-  List<Object> get props => [Map<String, dynamic>];
-}
-
-class OpenThirdPage extends MainEvent {
-  final Map<String, dynamic> data;
-
-  const OpenThirdPage({required this.data});
+  const NavigateToScreen({required this.namedRoute, required this.data});
 
   @override
   List<Object> get props => [Map<String, dynamic>];

@@ -11,18 +11,26 @@ void main() {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
+
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => MainBloc(),
+          create: (context) => MainBloc(navigatorKey: _navigatorKey),
         ),
       ],
       child: MaterialApp(
+        navigatorKey: _navigatorKey,
         theme: createLightTheme(),
         initialRoute: '/',
         routes: {
