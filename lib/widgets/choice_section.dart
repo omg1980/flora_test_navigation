@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../theme/theme.dart';
 
-class ChoiseSection extends StatelessWidget {
+class ChoiceSection extends StatelessWidget {
   final String title;
   final String description;
   final void Function()? onTap;
-  const ChoiseSection({
+  const ChoiceSection({
     super.key,
     required this.title,
     required this.description,

@@ -1,11 +1,12 @@
-import 'package:flora_test/bloc/main_bloc.dart';
+import 'dart:developer';
+
 import 'package:flora_test/screens/summary.dart';
 import 'package:flora_test/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../routes/routes.dart';
+import '../bloc/navigation_bloc.dart';
 
 class DateOfBirthScreen extends StatefulWidget {
   const DateOfBirthScreen({super.key});
@@ -27,6 +28,7 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final navigationBloc = context.read<NavigationBloc>();
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -38,6 +40,12 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            Align(
+              alignment: AlignmentDirectional.topStart,
+              child: BackButton(
+                onPressed: navigationBloc.openChoiceScreen,
+              ),
+            ),
             Text(
               'Log in your date of birth',
               style: Theme.of(context).textTheme.titleMedium,
@@ -92,75 +100,59 @@ class _DateOfBirthScreenState extends State<DateOfBirthScreen> {
                   ),
                 );
               },
-              child: BlocBuilder<MainBloc, MainState>(
-                builder: (context, state) {
-                  final Map<String, dynamic> additionalData = {};
-                  if (state is MainOpenSecondPage) {
-                    additionalData.addAll(state.data);
+              child: InkWell(
+                borderRadius: BorderRadius.circular(20),
+                onTap: () {
+                  LogDataTypeTitle? logPeriodType;
+                  try {
+                    logPeriodType =
+                        (navigationBloc.state as SecondPageNavigationState)
+                            .logPeriodType;
+                    navigationBloc.openResultScreen(
+                      logPeriodType,
+                      _selectedDate,
+                    );
+                  } catch (error, stackTrace) {
+                    log('error: $error, stackTrace: $stackTrace');
+                    navigationBloc.openChoiceScreen();
                   }
-                  if (state is MainOpenThirdPage) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        AppRoutes.summaryScreen,
-                        (route) => false,
-                      );
-                    });
-                  }
-
-                  return InkWell(
-                    borderRadius: BorderRadius.circular(20),
-                    onTap: () {
-                      context.read<MainBloc>().add(
-                            OpenThirdPage(
-                              data: {
-                                ...additionalData,
-                                'selectedDate': _selectedDate,
-                              },
+                },
+                child: SizedBox(
+                  width: 190,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Spacer(),
+                      Text(
+                        'Next',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: AppColors.white,
                             ),
-                          );
-                    },
-                    child: SizedBox(
-                      width: 190,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Spacer(),
-                          Text(
-                            'Next',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                  color: AppColors.white,
-                                ),
-                          ),
-                          Expanded(
-                            child: IgnorePointer(
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  minimumSize: Size.zero,
-                                  elevation: 0.0,
-                                  shape: const CircleBorder(),
-                                  backgroundColor: AppColors.white,
-                                ),
-                                child: const Center(
-                                  child: Icon(
-                                    size: 30,
-                                    Icons.chevron_right,
-                                    color: AppColors.purple,
-                                  ),
-                                ),
+                      ),
+                      Expanded(
+                        child: IgnorePointer(
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: Size.zero,
+                              elevation: 0.0,
+                              shape: const CircleBorder(),
+                              backgroundColor: AppColors.white,
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                size: 30,
+                                Icons.chevron_right,
+                                color: AppColors.purple,
                               ),
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    ],
+                  ),
+                ),
               ),
             ),
           ],

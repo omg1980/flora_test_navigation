@@ -1,5 +1,4 @@
-import 'package:flora_test/bloc/main_bloc.dart';
-import 'package:flora_test/routes/routes.dart';
+import 'package:flora_test/bloc/navigation_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,22 +12,18 @@ class SummaryScreen extends StatefulWidget {
 class _SummaryScreenState extends State<SummaryScreen> {
   @override
   Widget build(BuildContext context) {
+    final navigationBloc = context.read<NavigationBloc>();
+
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
-          onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              AppRoutes.choiceScreen,
-              (route) => false,
-            );
-          },
+          onPressed: navigationBloc.openChoiceScreen,
         ),
       ),
-      body: BlocBuilder<MainBloc, MainState>(
+      body: BlocBuilder<NavigationBloc, NavigationState>(
         builder: (context, state) {
-          if (state is MainOpenThirdPage) {
-            final data = state.data;
+          if (state is ThirdPageNavigationState) {
+            final data = state.toMap();
             return ListView.builder(
               itemCount: data.keys.length,
               itemBuilder: (context, index) {
